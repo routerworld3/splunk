@@ -1,0 +1,29 @@
+$Environment = [System.Net.Dns]::GetHostByName(($env:COMPUTERNAME))
+Write-Host "This script will only work as admin!" -BackgroundColor Magenta
+
+#Installs the Splunk Forwarder
+Start-Process -FilePath C:\Windows\system32\msiexec.exe -ArgumentList "/i splunkforwarder-8.2.0-e053ef3c985f-x64-release.msi AGREETOLICENSE=Yes SERVICESTARTTYPE=auto GENRANDOMPASSWORD=1 /quiet" -Wait -NoNewWindow
+
+#Stop the Splunk Universal Forwarder
+Write-Host "Stopping the Splunk Forwarder Service"
+Stop-Service -Name SplunkForwarder
+Start-Sleep -Seconds 5
+
+#Copy the zzz_config file into the Splunk Program Files
+Write-Host "Copying the configuration files"
+Copy-Item -Path .\zzz_config_base -Recurse -Destination "C:\Program Files\SplunkUniversalForwarder\etc\apps\"
+Start-Sleep -Seconds 5
+
+#Restart the splunk service
+Do{
+    
+    Write-Host "Attempting to restart Splunk Forwarder Service"
+    Start-Service -Name SplunkForwarder
+    Start-Sleep -Seconds 10
+
+    $Splunk = Get-Service -Name SplunkForwarder 
+}until($Splunk.Status -eq "Running")
+Write-Host "Splunk Service restarted successfully" -ForegroundColor Green
+ 
+
+In the folder of my script I have another folder named "zzz_config_base" and in that folder, a "local" folder, and in the local folder is my deploymentclient.conf file which you can create. That conf file has your information to point the forwarder to your Deployment Server.
