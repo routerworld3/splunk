@@ -1,3 +1,5 @@
+
+#https://community.splunk.com/t5/Installation/Powershell-for-splunk-forwarder-installation/m-p/570984
 $Environment = [System.Net.Dns]::GetHostByName(($env:COMPUTERNAME))
 Write-Host "This script will only work as admin!" -BackgroundColor Magenta
 
