@@ -28,4 +28,6 @@ Do{
 Write-Host "Splunk Service restarted successfully" -ForegroundColor Green
  
 
-In the folder of my script I have another folder named "zzz_config_base" and in that folder, a "local" folder, and in the local folder is my deploymentclient.conf file which you can create. That conf file has your information to point the forwarder to your Deployment Server.
+In the folder of my script I have another folder named "zzz_config_base" and in that folder,
+a "local" folder, and in the local folder is my deploymentclient.conf file which you can create.
+That conf file has your information to point the forwarder to your Deployment Server.
