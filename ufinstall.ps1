@@ -1,11 +1,15 @@
-
+ 
 #https://community.splunk.com/t5/Installation/Powershell-for-splunk-forwarder-installation/m-p/570984
+# C:\Program Files\SplunkUniversalForwarder\etc\system\local will save the info about user/deployment server.
 $Environment = [System.Net.Dns]::GetHostByName(($env:COMPUTERNAME))
 Write-Host "This script will only work as admin!" -BackgroundColor Magenta
+$SRC_FILE=splunkforwarder-9.0.1-82c987350fde-x64-release.msi
+$DEST_DIR="C:\share"
+$DSSRV = "10.10.10.10:8089"
 Start-Process -FilePath C:\Windows\system32\msiexec.exe -ArgumentList "/i C:\share\splunkforwarder-9.0.1-82c987350fde-x64-release.msi AGREETOLICENSE=Yes SERVICESTARTTYPE=auto DEPLOYMENT_SERVER=192.168.98.99:8089 GENRANDOMPASSWORD=1 /quiet" -Wait -NoNewWindow
 #Installs the Splunk Forwarder
 Start-Process -FilePath C:\Windows\system32\msiexec.exe -ArgumentList "/i splunkforwarder-8.2.0-e053ef3c985f-x64-release.msi AGREETOLICENSE=Yes SERVICESTARTTYPE=auto GENRANDOMPASSWORD=1 /quiet" -Wait -NoNewWindow
-Start-Process -FilePath C:\Windows\system32\msiexec.exe -ArgumentList "/i C:\share\splunkforwarder-9.0.1-82c987350fde-x64-release.msi AGREETOLICENSE=Yes SERVICESTARTTYPE=auto DEPLOYMENT_SERVER=IP:8089 GENRANDOMPASSWORD=1 /quiet" -Wait -NoNewWindow
+Start-Process -FilePath msiexec.exe -ArgumentList "/i $DEST_DIR\$SRC_FILE AGREETOLICENSE=Yes SERVICESTARTTYPE=auto DEPLOYMENT_SERVER=$DSSRV GENRANDOMPASSWORD=1 /quiet" -Wait -NoNewWindow
 #Stop the Splunk Universal Forwarder
 Write-Host "Stopping the Splunk Forwarder Service"
 Stop-Service -Name SplunkForwarder
