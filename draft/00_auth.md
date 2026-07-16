@@ -1,4 +1,4 @@
-Good set of questions — these are actually four distinct layers in Splunk. Let me take them in order.
+
 
 ## 1. How Splunk Authentication Works (the big picture)
 
